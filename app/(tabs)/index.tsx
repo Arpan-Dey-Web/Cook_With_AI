@@ -10,14 +10,13 @@ import {
   View,
 } from "react-native";
 
-import IngredientChip from "../components/IngredientChip";
-import IngredientInput from "../components/IngredientInput";
-import { COLORS, SPACING } from "../constants/theme";
+import IngredientChip from "../../components/IngredientChip";
+import IngredientInput from "../../components/IngredientInput";
+import { COLORS, SPACING } from "../../constants/theme";
 import {
   isDuplicateIngredient,
   normalizeIngredient,
-} from "../utils/ingredients";
-
+} from "../../utils/ingredients";
 export default function HomeScreen() {
   const [ingredientInput, setIngredientInput] = useState("");
   const [ingredients, setIngredients] = useState<string[]>([]);

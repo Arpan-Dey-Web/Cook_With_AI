@@ -1,9 +1,9 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
-import RecipeCard from "../components/RecipeCard";
-import { MOCK_RECIPES } from "../constants/mockRecipes";
-import { COLORS, SPACING } from "../constants/theme";
+import RecipeCard from "../../components/RecipeCard";
+import { MOCK_RECIPES } from "../../constants/mockRecipes";
+import { COLORS, SPACING } from "../../constants/theme";
 
 export default function RecipesScreen() {
   const router = useRouter();
