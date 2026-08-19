@@ -15,8 +15,8 @@ import {
 } from "expo-router";
 
 import RecipeIngredient from "../../components/RecipeIngredient";
-import { MOCK_RECIPES } from "../../constants/mockRecipes";
 import { COLORS, SPACING } from "../../constants/theme";
+import { useRecipeContext } from "../../contexts/RecipeContext";
 
 export default function Recipe() {
   const router = useRouter();
@@ -25,13 +25,10 @@ export default function Recipe() {
     id: string;
   }>();
 
-console.log("CURRENT RECIPE ID:", id);
+  const { recipes } = useRecipeContext();
 
-  const recipe = MOCK_RECIPES.find(
-    (item) => item.id === id
-  );
+  const recipe = recipes.find((item) => item.id === id);
 
-   // If recipe doesn't exist
   if (!recipe) {
     return (
       <SafeAreaView
@@ -321,10 +318,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
 
-  /*
-   * Header is now OUTSIDE the ScrollView.
-   * This keeps it fixed and inside the safe area.
-   */
   header: {
     height: 60,
     flexDirection: "row",
@@ -361,17 +354,11 @@ const styles = StyleSheet.create({
     width: 42,
   },
 
-  /*
-   * ScrollView content
-   */
   content: {
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.xxl,
   },
 
-  /*
-   * Recipe Hero
-   */
   hero: {
     alignItems: "center",
     paddingTop: SPACING.lg,
@@ -408,9 +395,6 @@ const styles = StyleSheet.create({
     maxWidth: 340,
   },
 
-  /*
-   * Recipe Info
-   */
   metaCard: {
     backgroundColor: COLORS.surface,
     borderWidth: 1,
@@ -451,9 +435,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.border,
   },
 
-  /*
-   * Ingredient Match
-   */
   matchCard: {
     marginTop: SPACING.md,
     padding: SPACING.md,
@@ -486,9 +467,6 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
 
-  /*
-   * Sections
-   */
   section: {
     marginTop: SPACING.xl,
   },
@@ -505,9 +483,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 
-  /*
-   * Ingredients
-   */
   ingredientsCard: {
     marginTop: SPACING.md,
     paddingHorizontal: SPACING.md,
@@ -517,9 +492,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
 
-  /*
-   * Missing Ingredients
-   */
   warningCard: {
     marginTop: SPACING.md,
     padding: SPACING.md,
@@ -550,9 +522,6 @@ const styles = StyleSheet.create({
     lineHeight: 21,
   },
 
-  /*
-   * Substitutions
-   */
   substitutionCard: {
     marginTop: SPACING.sm,
     padding: SPACING.md,
@@ -583,9 +552,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  /*
-   * Instructions
-   */
   instructions: {
     marginTop: SPACING.lg,
     gap: SPACING.lg,
@@ -619,9 +585,6 @@ const styles = StyleSheet.create({
     paddingTop: 4,
   },
 
-  /*
-   * Chef Tip
-   */
   tipCard: {
     marginTop: SPACING.xl,
     padding: SPACING.md,
@@ -656,9 +619,6 @@ const styles = StyleSheet.create({
     height: SPACING.xl,
   },
 
-  /*
-   * Recipe Not Found
-   */
   notFoundContainer: {
     flex: 1,
     alignItems: "center",

@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { RecipeProvider } from "../contexts/RecipeContext";
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -6,24 +7,26 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen
-        name="(tabs)"
-        options={{
+    <RecipeProvider>
+      <Stack
+        screenOptions={{
           headerShown: false,
         }}
-      />
+      >
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
 
-      <Stack.Screen
-        name="recipe/[id]"
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack>
+        <Stack.Screen
+          name="recipe/[id]"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </RecipeProvider>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import {
+  Alert,
   Keyboard,
   Pressable,
   SafeAreaView,
@@ -13,14 +14,19 @@ import {
 import IngredientChip from "../../components/IngredientChip";
 import IngredientInput from "../../components/IngredientInput";
 import { COLORS, SPACING } from "../../constants/theme";
+import { useRecipeContext } from "../../contexts/RecipeContext";
 import {
   isDuplicateIngredient,
   normalizeIngredient,
 } from "../../utils/ingredients";
+
 export default function HomeScreen() {
   const [ingredientInput, setIngredientInput] = useState("");
   const [ingredients, setIngredients] = useState<string[]>([]);
-const router = useRouter();
+  const router = useRouter();
+  const { setIngredients: setContextIngredients, clearAll } =
+    useRecipeContext();
+
   const handleAddIngredient = () => {
     const normalized = normalizeIngredient(ingredientInput);
 
@@ -42,19 +48,23 @@ const router = useRouter();
 
   const handleRemoveIngredient = (ingredientToRemove: string) => {
     setIngredients((current) =>
-      current.filter((ingredient) => ingredient !== ingredientToRemove)
+      current.filter(
+        (ingredient) => ingredient !== ingredientToRemove
+      )
     );
   };
 
-const handleFindRecipes = () => {
-  if (ingredients.length === 0) {
-    return;
-  }
+  const handleFindRecipes = () => {
+    if (ingredients.length === 0) {
+      return;
+    }
 
-  Keyboard.dismiss();
-
-  router.push("/recipes");
-};
+    Keyboard.dismiss();
+    console.log("[HOME] Finding recipes for:", ingredients);
+    clearAll();
+    setContextIngredients(ingredients);
+    router.push("/recipes");
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -91,7 +101,9 @@ const handleFindRecipes = () => {
         {ingredients.length > 0 && (
           <View style={styles.section}>
             <View style={styles.ingredientsHeader}>
-              <Text style={styles.sectionTitle}>Your ingredients</Text>
+              <Text style={styles.sectionTitle}>
+                Your ingredients
+              </Text>
 
               <Text style={styles.count}>
                 {ingredients.length}
@@ -103,7 +115,9 @@ const handleFindRecipes = () => {
                 <IngredientChip
                   key={ingredient}
                   ingredient={ingredient}
-                  onRemove={() => handleRemoveIngredient(ingredient)}
+                  onRemove={() =>
+                    handleRemoveIngredient(ingredient)
+                  }
                 />
               ))}
             </View>
@@ -116,8 +130,11 @@ const handleFindRecipes = () => {
             onPress={handleFindRecipes}
             style={({ pressed }) => [
               styles.findButton,
-              ingredients.length === 0 && styles.findButtonDisabled,
-              pressed && ingredients.length > 0 && styles.pressed,
+              ingredients.length === 0 &&
+                styles.findButtonDisabled,
+              pressed &&
+                ingredients.length > 0 &&
+                styles.pressed,
             ]}
           >
             <Text style={styles.findButtonText}>
