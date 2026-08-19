@@ -24,6 +24,15 @@ app.use((req, _res, next) => {
   next();
 });
 
+
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Cook With AI API is running",
+  });
+});
+
+
 app.get("/health", (_req, res) => {
   res.status(200).json({
     success: true,
